@@ -1,12 +1,11 @@
 const express = require("express");
 const app = express();
-const db = require("./server/db.js");
+const db = require("./db.js");
 const multer = require("multer");
 const cors=require("cors");
 const uidsafe = require("uid-safe");  
 const path = require("path");
-const cloudinary=require("./server/cloudinary/coloudinary.js");
-const { url } = require("inspector");
+const cloudinary=require("./cloudinary/coloudinary.js");
 
 
 
@@ -59,7 +58,6 @@ app.post("/api/images", uploader.single("image_file"), cloudinary.upload, async 
     
     const {username, title, description}=req.body;
    const {result}=res.locals;
-   console.log(result, "i am a result from res.locals")
    const url=result.secure_url;
 
     db.addImage(url, username, title, description)
@@ -101,7 +99,6 @@ app.get("/api/comments/:imageid", (req, res) => {
 
 app.get("/api/images/more", (req, res) => {
     const { after } = req.query;
-    console.log(after, " iam after");
     db.getMoreImages(after)
         .then((result) => {
             res.json(result.rows);
@@ -129,19 +126,15 @@ app.get("/api/images/:id", (req, res) => {
 });
 
 app.post("/api/image/delete", (req, res) => {
-    console.log(req.body, "men bodighu balangza");
     const { imageId } = req.body;
     db.deleteComment(imageId)
         .then((result) => {
-            console.log(result, "iam result in delete server")
             db.deleteImage(imageId).then((result2) => {
-                console.log(result2, "i ma result2 to delter image in server")
                 console.log(result2);
             });
         })
         .then((result3) => {
             
-            console.log(result3, "i ma result3 for delte in server");
             res.sendStatus(202);
         })
         .catch((e) => {
