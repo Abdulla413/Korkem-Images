@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
-const db = require("./db.js");
+const db = require("./server/db.js");
 const multer = require("multer");
 const cors=require("cors");
 const uidsafe = require("uid-safe");  
 const path = require("path");
-const cloudinary=require("./cloudinary/coloudinary.js");
+const cloudinary=require("./server/cloudinary/coloudinary.js");
 const { url } = require("inspector");
 
 
@@ -160,6 +160,10 @@ if(process.env.NODE_ENV==="production"){
         res.sendFile(`${__dirname}/public/index.html`);
     });
 }
+
+// app.get("*", (req, res) => {
+//     res.sendFile(`${__dirname}/index.html`);
+// });
 
 const port = process.env.PORT || 5000
 
