@@ -4,10 +4,16 @@ dotenv.config();
 const db = new Pool({
     user:`${process.env.POSTGRES_USER}`,
     password:`${process.env.POSTGRES_PASSWORD}`,
-    host:"localhost",
-    port:5432,
+    host:`${process.env.POSTGRES_HOSTNAME}`,
+    port:`${process.env.POSTGRES_PORT}`,
     database:`${process.env.POSTGRES_DB}`
+})
 
+db.connect((err)=>{
+    if(err){
+        throw err;
+    }
+    console.log("Database Connetcted")
 })
 
 
