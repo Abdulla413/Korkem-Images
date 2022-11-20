@@ -12,7 +12,7 @@ const cloudinary=require("./cloudinary/coloudinary.js");
 
 app.use(express.urlencoded({ extended: false }));
 const options = {
-    origin: ['http://localhost:5000','http://localhost:8080'],
+    origin:'*',
     }
     app.use(cors(options));
 
@@ -45,6 +45,7 @@ app.get("/api/images", (req, res) => {
     db.getInfo()
         .then((result) => {
             res.json(result.rows);
+            console.log(result.rows)
         })
         .catch((e) => {
             console.log(e);
@@ -145,18 +146,18 @@ app.post("/api/image/delete", (req, res) => {
 
 
 
-if(process.env.NODE_ENV==="production"){
-    //Static folder
-    app.use(express.static(__dirname + '/public/'));
-    // Handle SPA
-    app.get("*", (req, res) => {
-        res.sendFile(`${__dirname}/public/index.html`);
-    });
-}
+// if(process.env.NODE_ENV==="production"){
+//     //Static folder
+//     app.use(express.static(__dirname + '/public/'));
+//     // Handle SPA
+//     app.get("*", (req, res) => {
+//         res.sendFile(`${__dirname}/public/index.html`);
+//     });
+// }
 
-// app.get("*", (req, res) => {
-//     res.sendFile(`${__dirname}/index.html`);
-// });
+app.get("*", (req, res) => {
+    res.sendFile(`${__dirname} +  "/frontend/public/index.html"`);
+});
 
 const port = process.env.PORT || 5000
 
