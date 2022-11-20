@@ -9,19 +9,15 @@ const db = new Pool({
     database:`${process.env.POSTGRES_DB}`
 })
 
-const { query } = require("express");
 db.connect((err)=>{
     if(err){
         throw err;
     }
-    console.log("Database Connetcted   Elepahnt")
+    console.log("Database Connetcted")
 })
 
 
-db.connect=()=>{
-    
-    
-}
+const { query } = require("express");
 
 
 
